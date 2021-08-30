@@ -1,0 +1,58 @@
+﻿@model SisPicBD.Pais
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Pais</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.pai_codigo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pai_codigo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pai_nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pai_nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pai_codigotelefonico)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pai_codigotelefonico)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pai_iso2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pai_iso2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pai_iso3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pai_iso3)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.pai_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
