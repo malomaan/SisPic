@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CiudadBD.cs" />
+    <Compile Include="DepartamentoBD.cs" />
     <Compile Include="PaisBD.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
