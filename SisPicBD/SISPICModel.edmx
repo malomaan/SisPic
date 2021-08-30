@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SISPICModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Ciudad">
+          <Key>
+            <PropertyRef Name="ciu_codigo" />
+          </Key>
+          <Property Name="ciu_codigo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ciu_nombre" Type="varchar" MaxLength="250" />
+          <Property Name="ciu_capital" Type="bit" />
+          <Property Name="ciu_latitud" Type="decimal" Precision="18" Scale="15" />
+          <Property Name="ciu_longitud" Type="decimal" Precision="18" Scale="15" />
+          <Property Name="dep_codigo" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Departamento">
+          <Key>
+            <PropertyRef Name="dep_codigo" />
+          </Key>
+          <Property Name="dep_codigo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="dep_nombre" Type="varchar" MaxLength="250" />
+          <Property Name="pai_latitud" Type="decimal" Precision="18" Scale="15" />
+          <Property Name="pai_longitud" Type="decimal" Precision="18" Scale="15" />
+          <Property Name="pai_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Pais">
+          <Key>
+            <PropertyRef Name="pai_id" />
+          </Key>
+          <Property Name="pai_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="pai_codigo" Type="varchar" MaxLength="50" />
+          <Property Name="pai_nombre" Type="varchar" MaxLength="250" />
+          <Property Name="pai_codigotelefonico" Type="varchar" MaxLength="50" />
+          <Property Name="pai_iso2" Type="varchar" MaxLength="10" />
+          <Property Name="pai_iso3" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <Association Name="FK_Ciudad_Departamento">
+          <End Role="Departamento" Type="Self.Departamento" Multiplicity="0..1" />
+          <End Role="Ciudad" Type="Self.Ciudad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departamento">
+              <PropertyRef Name="dep_codigo" />
+            </Principal>
+            <Dependent Role="Ciudad">
+              <PropertyRef Name="dep_codigo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Departamento_Pais">
+          <End Role="Pais" Type="Self.Pais" Multiplicity="0..1" />
+          <End Role="Departamento" Type="Self.Departamento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pais">
+              <PropertyRef Name="pai_id" />
+            </Principal>
+            <Dependent Role="Departamento">
+              <PropertyRef Name="pai_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SISPICModelStoreContainer">
+          <EntitySet Name="Ciudad" EntityType="Self.Ciudad" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Departamento" EntityType="Self.Departamento" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pais" EntityType="Self.Pais" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Ciudad_Departamento" Association="Self.FK_Ciudad_Departamento">
+            <End Role="Departamento" EntitySet="Departamento" />
+            <End Role="Ciudad" EntitySet="Ciudad" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Departamento_Pais" Association="Self.FK_Departamento_Pais">
+            <End Role="Pais" EntitySet="Pais" />
+            <End Role="Departamento" EntitySet="Departamento" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SISPICModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Ciudad">
+          <Key>
+            <PropertyRef Name="ciu_codigo" />
+          </Key>
+          <Property Name="ciu_codigo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ciu_nombre" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="ciu_capital" Type="Boolean" />
+          <Property Name="ciu_latitud" Type="Decimal" Precision="18" Scale="15" />
+          <Property Name="ciu_longitud" Type="Decimal" Precision="18" Scale="15" />
+          <Property Name="dep_codigo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Departamento" Relationship="Self.FK_Ciudad_Departamento" FromRole="Ciudad" ToRole="Departamento" />
+        </EntityType>
+        <EntityType Name="Departamento">
+          <Key>
+            <PropertyRef Name="dep_codigo" />
+          </Key>
+          <Property Name="dep_codigo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dep_nombre" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="pai_latitud" Type="Decimal" Precision="18" Scale="15" />
+          <Property Name="pai_longitud" Type="Decimal" Precision="18" Scale="15" />
+          <Property Name="pai_id" Type="Int32" />
+          <NavigationProperty Name="Ciudad" Relationship="Self.FK_Ciudad_Departamento" FromRole="Departamento" ToRole="Ciudad" />
+          <NavigationProperty Name="Pais" Relationship="Self.FK_Departamento_Pais" FromRole="Departamento" ToRole="Pais" />
+        </EntityType>
+        <EntityType Name="Pais">
+          <Key>
+            <PropertyRef Name="pai_id" />
+          </Key>
+          <Property Name="pai_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="pai_codigo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="pai_nombre" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="pai_codigotelefonico" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="pai_iso2" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="pai_iso3" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Departamento" Relationship="Self.FK_Departamento_Pais" FromRole="Pais" ToRole="Departamento" />
+        </EntityType>
+        <Association Name="FK_Ciudad_Departamento">
+          <End Role="Departamento" Type="Self.Departamento" Multiplicity="0..1" />
+          <End Role="Ciudad" Type="Self.Ciudad" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departamento">
+              <PropertyRef Name="dep_codigo" />
+            </Principal>
+            <Dependent Role="Ciudad">
+              <PropertyRef Name="dep_codigo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Departamento_Pais">
+          <End Role="Pais" Type="Self.Pais" Multiplicity="0..1" />
+          <End Role="Departamento" Type="Self.Departamento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pais">
+              <PropertyRef Name="pai_id" />
+            </Principal>
+            <Dependent Role="Departamento">
+              <PropertyRef Name="pai_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SISPICEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Ciudad" EntityType="Self.Ciudad" />
+          <EntitySet Name="Departamento" EntityType="Self.Departamento" />
+          <EntitySet Name="Pais" EntityType="Self.Pais" />
+          <AssociationSet Name="FK_Ciudad_Departamento" Association="Self.FK_Ciudad_Departamento">
+            <End Role="Departamento" EntitySet="Departamento" />
+            <End Role="Ciudad" EntitySet="Ciudad" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Departamento_Pais" Association="Self.FK_Departamento_Pais">
+            <End Role="Pais" EntitySet="Pais" />
+            <End Role="Departamento" EntitySet="Departamento" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SISPICModelStoreContainer" CdmEntityContainer="SISPICEntities">
+          <EntitySetMapping Name="Ciudad">
+            <EntityTypeMapping TypeName="SISPICModel.Ciudad">
+              <MappingFragment StoreEntitySet="Ciudad">
+                <ScalarProperty Name="ciu_codigo" ColumnName="ciu_codigo" />
+                <ScalarProperty Name="ciu_nombre" ColumnName="ciu_nombre" />
+                <ScalarProperty Name="ciu_capital" ColumnName="ciu_capital" />
+                <ScalarProperty Name="ciu_latitud" ColumnName="ciu_latitud" />
+                <ScalarProperty Name="ciu_longitud" ColumnName="ciu_longitud" />
+                <ScalarProperty Name="dep_codigo" ColumnName="dep_codigo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departamento">
+            <EntityTypeMapping TypeName="SISPICModel.Departamento">
+              <MappingFragment StoreEntitySet="Departamento">
+                <ScalarProperty Name="dep_codigo" ColumnName="dep_codigo" />
+                <ScalarProperty Name="dep_nombre" ColumnName="dep_nombre" />
+                <ScalarProperty Name="pai_latitud" ColumnName="pai_latitud" />
+                <ScalarProperty Name="pai_longitud" ColumnName="pai_longitud" />
+                <ScalarProperty Name="pai_id" ColumnName="pai_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pais">
+            <EntityTypeMapping TypeName="SISPICModel.Pais">
+              <MappingFragment StoreEntitySet="Pais">
+                <ScalarProperty Name="pai_id" ColumnName="pai_id" />
+                <ScalarProperty Name="pai_codigo" ColumnName="pai_codigo" />
+                <ScalarProperty Name="pai_nombre" ColumnName="pai_nombre" />
+                <ScalarProperty Name="pai_codigotelefonico" ColumnName="pai_codigotelefonico" />
+                <ScalarProperty Name="pai_iso2" ColumnName="pai_iso2" />
+                <ScalarProperty Name="pai_iso3" ColumnName="pai_iso3" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
